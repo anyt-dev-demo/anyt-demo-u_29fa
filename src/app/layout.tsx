@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mission Control - AI-Assisted Software Development",
+  title: "Reno Travel Blog - Explore Nevada's Gem",
   description:
-    "The first task management system built for coding agents and human developers. Track tasks, attempts, and progress across human and AI team members.",
+    "Discover the best travel tips, attractions, and experiences in Reno, Nevada. From outdoor adventures to local cuisine, explore why Reno is the perfect travel destination.",
 };
 
 export default function RootLayout({
