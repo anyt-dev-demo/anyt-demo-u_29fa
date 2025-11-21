@@ -49,7 +49,42 @@ const blogPosts: BlogPost[] = [
   },
 ];
 
+function BlogCard({ post }: { post: BlogPost }) {
+  return (
+    <article className="flex flex-col overflow-hidden rounded-lg border border-zinc-200 bg-white transition-shadow hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-950">
+      <div className="flex flex-1 flex-col gap-4 p-6">
+        <div className="flex items-center gap-2">
+          <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800 dark:bg-blue-900 dark:text-blue-100">
+            {post.category}
+          </span>
+        </div>
+        <h4 className="text-lg font-bold leading-snug text-zinc-900 dark:text-zinc-50">
+          {post.title}
+        </h4>
+        <p className="flex-1 text-sm text-zinc-600 dark:text-zinc-400">
+          {post.excerpt}
+        </p>
+        <div className="flex items-center justify-between pt-4">
+          <span className="text-xs text-zinc-500 dark:text-zinc-400">
+            {post.date}
+          </span>
+          <a
+            href={`/blog/${post.id}`}
+            className="text-sm font-medium text-blue-600 transition-colors hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+          >
+            Read More →
+          </a>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 export default function Home() {
+  const categories = Array.from(
+    new Set(blogPosts.map((post) => post.category)),
+  );
+
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-b from-zinc-50 to-zinc-100 dark:from-zinc-900 dark:to-black">
       <header className="border-b border-zinc-200 dark:border-zinc-800">
@@ -94,46 +129,22 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="px-6 py-16 sm:px-8">
-          <div className="mx-auto max-w-6xl">
-            <h3 className="mb-12 text-2xl font-bold text-zinc-900 dark:text-zinc-50">
-              Latest Articles
-            </h3>
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {blogPosts.map((post) => (
-                <article
-                  key={post.id}
-                  className="flex flex-col overflow-hidden rounded-lg border border-zinc-200 bg-white transition-shadow hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-950"
-                >
-                  <div className="flex flex-1 flex-col gap-4 p-6">
-                    <div className="flex items-center gap-2">
-                      <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800 dark:bg-blue-900 dark:text-blue-100">
-                        {post.category}
-                      </span>
-                    </div>
-                    <h4 className="text-lg font-bold leading-snug text-zinc-900 dark:text-zinc-50">
-                      {post.title}
-                    </h4>
-                    <p className="flex-1 text-sm text-zinc-600 dark:text-zinc-400">
-                      {post.excerpt}
-                    </p>
-                    <div className="flex items-center justify-between pt-4">
-                      <span className="text-xs text-zinc-500 dark:text-zinc-400">
-                        {post.date}
-                      </span>
-                      <a
-                        href={`/blog/${post.id}`}
-                        className="text-sm font-medium text-blue-600 transition-colors hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
-                      >
-                        Read More →
-                      </a>
-                    </div>
-                  </div>
-                </article>
-              ))}
+        {categories.map((category) => (
+          <section key={category} className="px-6 py-16 sm:px-8">
+            <div className="mx-auto max-w-6xl">
+              <h3 className="mb-12 text-2xl font-bold text-zinc-900 dark:text-zinc-50">
+                {category}
+              </h3>
+              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                {blogPosts
+                  .filter((post) => post.category === category)
+                  .map((post) => (
+                    <BlogCard key={post.id} post={post} />
+                  ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        ))}
 
         <section className="border-t border-zinc-200 dark:border-zinc-800 bg-zinc-100 px-6 py-16 dark:bg-zinc-950 sm:px-8">
           <div className="mx-auto max-w-6xl text-center">
